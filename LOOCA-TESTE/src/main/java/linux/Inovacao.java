@@ -1,4 +1,4 @@
-package org.example;
+package linux;
 
 import com.github.britooo.looca.api.core.Looca;
 
@@ -106,4 +106,5 @@ public class Inovacao {
     public void setListarDiretorio(String listarDiretorio) {
         this.listarDiretorio = listarDiretorio;
     }
+
 }
