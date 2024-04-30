@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Looca novoLooca = new Looca();
         Inovacao testeInova = new Inovacao();
-
+        
        testeInova.listarDiretorioMidia();
 
 

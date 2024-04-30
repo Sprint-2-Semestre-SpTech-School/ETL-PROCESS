@@ -26,8 +26,9 @@ public class Main {
                 // Iniciar o processo
                 Process process;
 
-                List<String> descricaoDispositivo = new ArrayList<>();
-                List<String> idDispositivo = new ArrayList<>();
+                List<String> dispositivosPermitidos = new ArrayList<>();
+                List<String> dispositivosBloqueados = new ArrayList<>();
+
                 try {
                     process = processBuilder.start();
                 } catch (IOException e) {
@@ -39,18 +40,22 @@ public class Main {
 
                 // String linha e um while para ler linha a linha, quando acabar, encerra o código
                 String line;
+
+                Integer contadorLinha = 0;
                 try{
                     while ((line = reader.readLine()) != null) {
-                        System.out.println(line);
-                    }
-                    System.out.println("Comando finalizado.");
+                            System.out.println(line);
+                            dispositivosPermitidos.add(line);
+                            contadorLinha++;
+                     }
+                    System.out.println("Programa finalizado.");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
 
             }
         }; // Aqui é o fim do bloco da tarefa
-        timer.schedule(tarefa, 1000, 2000); // Aqui definimos o parâmetro da tarefa, o primeiro
+        timer.schedule(tarefa, 1000, 2000000); // Aqui definimos o parâmetro da tarefa, o primeiro
         // Parâmetro é a própria tarefa, o segundo é o delay para executar e o último é o período no qual
         // O bloco será executado.
     }
