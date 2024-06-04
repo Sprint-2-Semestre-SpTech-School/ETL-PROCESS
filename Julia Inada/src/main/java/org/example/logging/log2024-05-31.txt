@@ -1,0 +1,33 @@
+20240531 15:40:32 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240531 15:40:32 - info - M006 - sabrina-IdeaPad-3-15ALC6 - amd64
+20240531 15:40:32 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Linux
+20240531 15:43:55 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240531 15:43:55 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Linux Mint
+20240531 15:46:50 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240531 15:46:50 - info - M006 - sabrina-IdeaPad-3-15ALC6 - OS name: Linux Mint
+20240531 15:46:50 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Arch: 64
+20240531 15:49:41 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240531 15:49:41 - info - M006 - sabrina-IdeaPad-3-15ALC6 - OS name: Linux Mint
+20240531 15:49:41 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Arch: 64 bits
+20240531 16:33:36 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240531 16:33:36 - info - M006 - sabrina-IdeaPad-3-15ALC6 - OS name: Linux Mint
+20240531 16:33:36 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Arch: 64x bits
+20240531 16:33:36 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Iniciando a aplicação...
+20240531 16:33:36 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL.
+20240531 16:33:36 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL: localizacao.redata
+20240531 16:35:28 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240531 16:35:28 - info - M006 - sabrina-IdeaPad-3-15ALC6 - OS name: Linux Mint
+20240531 16:35:28 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Arch: 64x bits
+20240531 16:35:28 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Iniciando a aplicação...
+20240531 16:35:28 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL.
+20240531 16:35:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new value: CNPJ: 53719031000163 for ID.Empresa.redata: 1
+20240531 16:35:28 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL: localizacao.redata
+20240531 16:50:10 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240531 16:50:10 - info - M006 - sabrina-IdeaPad-3-15ALC6 - OS name: Linux Mint
+20240531 16:50:10 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Arch: 64x bits
+20240531 16:50:10 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Iniciando a aplicação...
+20240531 16:50:10 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB:
+20240531 16:50:10 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new value - Nome: ReData.INC for ID.Empresa.redata: 1
+20240531 16:50:10 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new value - CNPJ: 53719031000163 for ID.Empresa.redata: 1
+20240531 16:50:10 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL.
+20240531 16:50:10 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL: localizacao.redata
