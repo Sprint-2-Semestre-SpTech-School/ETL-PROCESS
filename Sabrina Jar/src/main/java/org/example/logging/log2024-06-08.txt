@@ -1,0 +1,91 @@
+20240608 20:58:30 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240608 20:58:30 - info - M006 - sabrina-IdeaPad-3-15ALC6 - OS name: Linux Mint
+20240608 20:58:30 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Arch: 64x bits
+20240608 20:58:30 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Iniciando a aplicação...
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Empresa
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - Nome: ReData.INC for ID.Empresa.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - CNPJ: 53719031000163 for ID.Empresa.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: localizacaoEmpresa
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - CEP: 03325764 for ID.localizacaoEmpresa.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - estado: São Paulo for ID.localizacaoEmpresa.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - logradouro: Rua Database for ID.localizacaoEmpresa.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - numero: 777 for ID.localizacaoEmpresa.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - bairro: DataLake for ID.localizacaoEmpresa.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - complemento: Camada de Load for ID.localizacaoEmpresa.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Contato
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - nome: James Heat Field for ID.Contato.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - email: James@gmail.com for ID.Contato.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - telefone: 11974216702 for ID.Contato.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Conta
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values for login: ReData2024 / siglaConta: ADM for ID.Conta.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Projeto
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - nomeDemanda: Venda de Coca-Cola for ID.Projeto.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - dataInicio: null for ID.Projeto.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - dataTermino: null for ID.Projeto.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - descricao: Aumentar vendas de Coca-Cola na Zona Norte for ID.Projeto.redata: 1
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - responsavel: Julia for ID.Projeto.redata: 1
+20240608 20:58:30 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Iniciando captura de dados da máquina: null...
+20240608 20:58:30 - info - M001 - sabrina-IdeaPad-3-15ALC6 - User: sabrina
+20240608 20:58:30 - info - M001 - sabrina-IdeaPad-3-15ALC6 - OS: Linux Mint
+20240608 20:58:30 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Temperature: 61,75
+20240608 20:58:30 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Uptime: 1hours
+20240608 20:58:30 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Process finished..
+20240608 20:58:30 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Máquina
+20240608 20:58:30 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Finalizando aplicação...
+20240608 20:59:28 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240608 20:59:28 - info - M006 - sabrina-IdeaPad-3-15ALC6 - OS name: Linux Mint
+20240608 20:59:28 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Arch: 64x bits
+20240608 20:59:28 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Iniciando a aplicação...
+20240608 20:59:28 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL.
+20240608 20:59:28 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL: localizacaoEmpresa
+20240608 20:59:28 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL: Contato
+20240608 20:59:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Conta
+20240608 20:59:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values for login: ReData2024 / siglaConta: ADM for ID.Conta.redata: 1
+20240608 20:59:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Projeto
+20240608 20:59:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - nomeDemanda: Venda de Coca-Cola for ID.Projeto.redata: 1
+20240608 20:59:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - dataInicio: null for ID.Projeto.redata: 1
+20240608 20:59:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - dataTermino: null for ID.Projeto.redata: 1
+20240608 20:59:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - descricao: Aumentar vendas de Coca-Cola na Zona Norte for ID.Projeto.redata: 1
+20240608 20:59:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - responsavel: Julia for ID.Projeto.redata: 1
+20240608 20:59:28 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Iniciando captura de dados da máquina: null...
+20240608 20:59:28 - info - M001 - sabrina-IdeaPad-3-15ALC6 - User: sabrina
+20240608 20:59:28 - info - M001 - sabrina-IdeaPad-3-15ALC6 - OS: Linux Mint
+20240608 20:59:28 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Temperature: 53,63
+20240608 20:59:28 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Uptime: 1hours
+20240608 20:59:28 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Process finished..
+20240608 20:59:28 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Máquina
+20240608 20:59:28 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Finalizando aplicação...
+20240608 23:24:09 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240608 23:24:09 - info - M006 - sabrina-IdeaPad-3-15ALC6 - OS name: Linux Mint
+20240608 23:24:09 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Arch: 64x bits
+20240608 23:24:09 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Iniciando a aplicação...
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Empresa
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - Nome: ReData.INC for ID.Empresa.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - CNPJ: 53719031000163 for ID.Empresa.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: localizacaoEmpresa
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - CEP: 03325764 for ID.localizacaoEmpresa.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - estado: São Paulo for ID.localizacaoEmpresa.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - logradouro: Rua Database for ID.localizacaoEmpresa.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - numero: 777 for ID.localizacaoEmpresa.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - bairro: DataLake for ID.localizacaoEmpresa.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - complemento: Camada de Load for ID.localizacaoEmpresa.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Contato
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - nome: James Heat Field for ID.Contato.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - email: James@gmail.com for ID.Contato.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - telefone: 11974216702 for ID.Contato.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Conta
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values for login: ReData2024 / siglaConta: ADM for ID.Conta.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Projeto
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - nomeDemanda: Venda de Coca-Cola for ID.Projeto.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - dataInicio: null for ID.Projeto.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - dataTermino: null for ID.Projeto.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - descricao: Aumentar vendas de Coca-Cola na Zona Norte for ID.Projeto.redata: 1
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - responsavel: Julia for ID.Projeto.redata: 1
+20240608 23:24:09 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Iniciando captura de dados da máquina: null...
+20240608 23:24:09 - info - M001 - sabrina-IdeaPad-3-15ALC6 - User: sabrina
+20240608 23:24:09 - info - M001 - sabrina-IdeaPad-3-15ALC6 - OS: Linux Mint
+20240608 23:24:09 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Temperature: 55,38
+20240608 23:24:09 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Uptime: 4hours
+20240608 23:24:09 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Process finished..
+20240608 23:24:09 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Máquina
+20240608 23:24:09 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Finalizando aplicação...
