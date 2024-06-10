@@ -6,6 +6,10 @@ import org.example.Jdbc.ConexaoServer;
 import org.example.Maquina;
 import org.example.Slack;
 import org.example.TipoHardware;
+import org.example.logging.GeradorLog;
+import org.example.logging.Modulo;
+import org.example.logging.Tabelas;
+import org.example.logging.TagNiveisLog;
 import org.json.JSONObject;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -54,10 +58,19 @@ public class Ram extends Hardware {
         String queryInfoHardware = "INSERT INTO infoHardware (tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina)" +
                 "VALUES (?, ?, ?, ? , ?)";
         con.update(queryInfoHardware, tipoHardware.getNome(), nomeHardware, unidadeCaptacao, valorTotal, fkMaquina);
+
+        GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.INFO_HARDWARE.getDescricaoTabela()), Modulo.ENVIO_DADOS);
+        GeradorLog.log(TagNiveisLog.INFO, queryInfoHardware, Modulo.CAPTURA_HARDWARE);
+
         try{
             con02.update(queryInfoHardware, tipoHardware.getNome(), nomeHardware, unidadeCaptacao, valorTotal, fkMaquina);
+
+            GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Server DB: Table: %s".formatted(Tabelas.INFO_HARDWARE.getDescricaoTabela()), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, queryInfoHardware, Modulo.CAPTURA_HARDWARE);
+
         } catch (RuntimeException e) {
             e.getMessage();
+            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão MYSQL Local / Server", Modulo.ALERTA);
         }
 
     }
@@ -76,10 +89,19 @@ public class Ram extends Hardware {
                 String queryRegistro = "INSERT INTO registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
                         "VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
                 con.update(queryRegistro, nomeRegistro, (looca.getMemoria().getEmUso() / 1e9) * 100 / valorTotal, fkHardware);
+
+                GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
+                GeradorLog.log(TagNiveisLog.INFO, queryRegistro, Modulo.CAPTURA_HARDWARE);
+
                 try {
                     con02.update(queryRegistro, nomeRegistro, (looca.getMemoria().getEmUso() / 1e9) * 100 / valorTotal, fkHardware);
+
+                    GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Server DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
+                    GeradorLog.log(TagNiveisLog.INFO, queryRegistro, Modulo.CAPTURA_HARDWARE);
+
                 } catch (RuntimeException e){
                     e.getMessage();
+                    GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão: RAM", Modulo.ALERTA);
                 }
 
                 if(looca.getMemoria().getEmUso() >= 70 && looca.getMemoria().getEmUso() < 85){
@@ -87,8 +109,10 @@ public class Ram extends Hardware {
                         JSONObject json = new JSONObject();
                         json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
                         Slack.sendMessage(json);
+                        GeradorLog.log(TagNiveisLog.WARN,"Envio alerta Slack!", Modulo.ALERTA);
                     } catch (IOException e) {
                         System.out.println("Deu ruim no slack" + e);
+                        GeradorLog.log(TagNiveisLog.ERROR, "Erro conexão Slack!", Modulo.ALERTA);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -98,8 +122,10 @@ public class Ram extends Hardware {
                         JSONObject json = new JSONObject();
                         json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
                         Slack.sendMessage(json);
+                        GeradorLog.log(TagNiveisLog.WARN, "Envio alerta Slack!", Modulo.ALERTA);
                     } catch (IOException e) {
                         System.out.println("Deu ruim no slack" + e);
+                        GeradorLog.log(TagNiveisLog.WARN, "Erro de conexão Slack!", Modulo.ALERTA);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

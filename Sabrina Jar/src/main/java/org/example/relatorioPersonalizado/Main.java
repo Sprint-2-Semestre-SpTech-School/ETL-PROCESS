@@ -1,8 +1,8 @@
 package org.example.relatorioPersonalizado;
 
-import org.example.Cpu;
-import org.example.Disco;
-import org.example.Ram;
+import org.example.Capturas.Cpu;
+import org.example.Capturas.Disco;
+import org.example.Capturas.Ram;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,7 +34,7 @@ public class Main {
         switch (option) {
             case DISCO -> {
                 System.out.println(option.getDescricao() + " - " + currentDateTime);
-                disco.gerarRelatorio();
+//                disco.gerarRelatorio();
             }
             case CPU -> {
                 System.out.println(option.getDescricao());
