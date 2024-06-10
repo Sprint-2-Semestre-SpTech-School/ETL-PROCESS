@@ -135,4 +135,18 @@ public class Ram extends Hardware {
         };
         timer.schedule(tarefa, 1000, 5000);
     }
+
+    @Override
+    public void gerarRelatorio() {
+        System.out.println("""
+                O relatório de RAM possui maior relevância no contexto Transformação e LOAD de ETL.
+                Seu monitoramento garante um processamento de dados eficaz operando de maneira
+                veloz mesmo com operações intensas de tratamento de dados. Principalmente em leitura,
+                garantindo que haja espaço livre para temporariamente armazenar vários dados lidos.
+                A saúde da sua RAM em tempo real:
+                RAM: %s
+                Valor em uso: %s
+                Valor total: %s
+                Valor disponível: %s""".formatted(looca.getMemoria(), looca.getMemoria().getEmUso(), looca.getMemoria().getTotal(),looca.getMemoria().getDisponivel()));
+    }
 }

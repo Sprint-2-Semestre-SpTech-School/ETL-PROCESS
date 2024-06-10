@@ -213,4 +213,14 @@ public class Rede extends Hardware {
             GeradorLog.log(TagNiveisLog.WARN, "Erro de conexão: REDE", Modulo.ALERTA);
         }
     }
+
+    @Override
+    public void gerarRelatorio() {
+        System.out.println("""
+                O relatório de REDE possui maior relevância no contexto Extração de ETL.
+                Seu monitoramento garante a estabilidade da conexão que viabiliza e sustenta a extração de dados
+                de maneira ininterrupta. Garantindo um processo contínuo...
+                A saúde da sua REDE em tempo real:
+                REDE: %s""".formatted(looca.getRede()));
+    }
 }

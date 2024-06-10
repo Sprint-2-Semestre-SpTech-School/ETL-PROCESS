@@ -34,15 +34,15 @@ public class Main {
         switch (option) {
             case DISCO -> {
                 System.out.println(option.getDescricao() + " - " + currentDateTime);
-//                disco.gerarRelatorio();
+                disco.gerarRelatorio();
             }
             case CPU -> {
                 System.out.println(option.getDescricao());
-//                cpu.exibirRelatiorio;
+                cpu.gerarRelatorio();
             }
             case RAM -> {
                 System.out.println(option.getDescricao());
-//                ram.exibirRelatorio;
+                ram.gerarRelatorio();
             }
             case SAIR -> {
                 System.out.println(option.getDescricao());

@@ -144,5 +144,17 @@ public class Cpu extends Hardware {
             GeradorLog.log(TagNiveisLog.INFO, "Erro de conexão! Mysql CPU", Modulo.GERAL);
         }
     }
+
+    @Override
+    public void gerarRelatorio() {
+        System.out.println("""
+                O relatório de CPU possui maior relevância no contexto Transformação de ETL.
+                Seu monitoramento garante um processamento de dados eficaz operando de maneira
+                veloz mesmo com operações intensas de tratamento de dados.
+                A saúde da sua CPU em tempo real:
+                CPU: %s
+                Uso: %.2f
+                Frequência: %s""".formatted(looca.getProcessador().getNome(), looca.getProcessador().getUso(), looca.getProcessador().getFrequencia()));
+    }
 }
 

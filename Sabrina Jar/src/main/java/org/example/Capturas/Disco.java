@@ -302,4 +302,15 @@ public class Disco extends Hardware {
             GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão SQL server & MySQL DB", Modulo.ALERTA);
         }
     }
+
+    @Override
+    public void gerarRelatorio() {
+        System.out.println("""
+                O relatório de Disco possui maior relevância no contexto Extração de ETL.
+                Seu monitoramento garante uma velocidade eficiente de leitura de pacotes.
+                A saúde do seu disco em tempo real:
+                Disco: %s
+                Bytes de leitura: %.2f
+                Bytes de escrita: %.2f""".formatted(nomeHardware, bytesLeituraAnterior, bytesEscritaAnterior));
+    }
 }
