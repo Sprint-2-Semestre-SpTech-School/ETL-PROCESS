@@ -6,16 +6,19 @@ import org.example.Capturas.Disco;
 import org.example.Capturas.Ram;
 import org.example.Capturas.Rede;
 import org.example.Jdbc.Conexao;
+import org.example.logging.GeradorLog;
 import org.json.JSONObject;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.IOException;
+import java.time.temporal.ChronoUnit;
 
 public class Main {
     private static final Conexao conexao = new Conexao();
     private static final JdbcTemplate con = conexao.getConexaoBanco();
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        GeradorLog.cleanerOldLogs(1440, 2, ChronoUnit.DAYS);
         Looca looca = new Looca();
         Cpu cpu = new Cpu();
         Ram ram = new Ram();
