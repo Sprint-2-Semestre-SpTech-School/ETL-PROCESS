@@ -73,12 +73,12 @@
             }
         }
 
-        public static void autoClean(Long tempo, int intervaloMinutos, ChronoUnit unidade) {
+        public static void autoClean(double intervaloDias, int intervaloMinutos) {
             Timer timer = new Timer(true);
             TimerTask tarefaLimpeza = new TimerTask() {
                 @Override
                 public void run() {
-                    cleanerOldLogs(Math.toIntExact(tempo), 2, unidade);
+                    cleanerOldLogs((int)intervaloDias);
                 }
             };
             timer.scheduleAtFixedRate(tarefaLimpeza, 0, (long) intervaloMinutos * 60 * 1000);
