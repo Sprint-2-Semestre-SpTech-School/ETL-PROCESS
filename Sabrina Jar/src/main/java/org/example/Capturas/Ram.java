@@ -33,7 +33,7 @@ public class Ram extends Hardware {
         super(tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina, looca, conexao, conexao02, con, con02);
     }
 
-    public Ram(Integer fkMaquina){
+    public Ram(Integer fkMaquina) {
         this.fkMaquina = fkMaquina;
     }
 
@@ -47,85 +47,94 @@ public class Ram extends Hardware {
 
     @Override
     public void capturarDados(Integer fkMaquina) {
-        Maquina maquina = new Maquina();
-
         tipoHardware = TipoHardware.RAM;
         nomeHardware = null;
         unidadeCaptacao = "Gb";
         valorTotal = (double) Math.round(looca.getMemoria().getTotal() / 1e9);
-//        fkMaquina = 500;
 
-        String queryInfoHardware = "INSERT INTO infoHardware (tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina)" +
-                "VALUES (?, ?, ?, ? , ?)";
-        con.update(queryInfoHardware, tipoHardware.getNome(), nomeHardware, unidadeCaptacao, valorTotal, fkMaquina);
+        GeradorLog.log(TagNiveisLog.INFO, "Iniciando captura de dados do Hardware: " + TipoHardware.RAM, Modulo.CAPTURA_HARDWARE);
+        GeradorLog.log(TagNiveisLog.INFO, "Descrição: Sem registros sobre este dado.", Modulo.CAPTURA_HARDWARE);
+        GeradorLog.log(TagNiveisLog.INFO, "Unidade captura: %s".formatted(unidadeCaptacao), Modulo.CAPTURA_HARDWARE);
+        GeradorLog.log(TagNiveisLog.INFO, "Valor total: %.2f".formatted(valorTotal), Modulo.CAPTURA_HARDWARE);
 
-        GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.INFO_HARDWARE.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-        GeradorLog.log(TagNiveisLog.INFO, queryInfoHardware, Modulo.CAPTURA_HARDWARE);
-
-        try{
+        try {
+            String queryInfoHardware = "INSERT INTO InfoHardware (tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina)" +
+                    "VALUES (?, ?, ?, ? , ?)";
             con02.update(queryInfoHardware, tipoHardware.getNome(), nomeHardware, unidadeCaptacao, valorTotal, fkMaquina);
 
-            GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Server DB: Table: %s".formatted(Tabelas.INFO_HARDWARE.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-            GeradorLog.log(TagNiveisLog.INFO, queryInfoHardware, Modulo.CAPTURA_HARDWARE);
+            GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! -> Re;Data SQL Server DB / Tabela " + Tabelas.INFO_HARDWARE, Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Hardware: %s".formatted(tipoHardware), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Descrição: Sem registros sobre este dado.", Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Unidade de captura: %s".formatted(unidadeCaptacao), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Valor total: %.2f".formatted(valorTotal), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Máquina referida: %s".formatted(fkMaquina), Modulo.ENVIO_DADOS);
 
         } catch (RuntimeException e) {
-            e.getMessage();
-            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão MYSQL Local / Server", Modulo.ALERTA);
+            System.out.println("Erro de conexão 'Ram' sql" + e.getMessage());
+            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão SQL / Tabela " + Tabelas.INFO_HARDWARE, Modulo.ENVIO_DADOS);
         }
 
     }
 
     @Override
     public void inserirDados() {
-        String queryIdHardware = "SELECT LAST_INSERT_ID()";
-        Integer fkHardware = con.queryForObject(queryIdHardware, Integer.class);
 
+    }
+
+    @Override
+    public void inserirDados(Integer fkHardware) {
         String nomeRegistro = "usoRam";
 
         Timer timer = new Timer();
         TimerTask tarefa = new TimerTask() {
             @Override
             public void run() {
-                String queryRegistro = "INSERT INTO registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
+                String queryRegistro = "INSERT INTO Registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
                         "VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
-                con.update(queryRegistro, nomeRegistro, (looca.getMemoria().getEmUso() / 1e9) * 100 / valorTotal, fkHardware);
+                con02.update(queryRegistro, nomeRegistro, (looca.getMemoria().getEmUso() / 1e9) * 100 / valorTotal, fkHardware);
 
-                GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-                GeradorLog.log(TagNiveisLog.INFO, queryRegistro, Modulo.CAPTURA_HARDWARE);
+                GeradorLog.log(TagNiveisLog.INFO, "Novo registro capturado! -> Tabela: " + Tabelas.REGISTRO, Modulo.ALERTA);
+                GeradorLog.log(TagNiveisLog.INFO, "Nome: %s".formatted(nomeRegistro), Modulo.ENVIO_DADOS);
+                GeradorLog.log(TagNiveisLog.INFO, "Valor capturado: " + (looca.getMemoria().getEmUso() / 1e9) * 100 / valorTotal, Modulo.ENVIO_DADOS);
+                GeradorLog.log(TagNiveisLog.INFO, "ID Hardware: %d".formatted(fkHardware), Modulo.ENVIO_DADOS);
 
                 try {
                     con02.update(queryRegistro, nomeRegistro, (looca.getMemoria().getEmUso() / 1e9) * 100 / valorTotal, fkHardware);
 
-                    GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Server DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-                    GeradorLog.log(TagNiveisLog.INFO, queryRegistro, Modulo.CAPTURA_HARDWARE);
+                    GeradorLog.log(TagNiveisLog.INFO, "Novo registro capturado! -> Tabela: " + Tabelas.REGISTRO, Modulo.ALERTA);
+                    GeradorLog.log(TagNiveisLog.INFO, "Nome: %s".formatted(nomeRegistro), Modulo.ENVIO_DADOS);
+                    GeradorLog.log(TagNiveisLog.INFO, "Valor capturado: " + (looca.getMemoria().getEmUso() / 1e9) * 100 / valorTotal, Modulo.ENVIO_DADOS);
+                    GeradorLog.log(TagNiveisLog.INFO, "ID Hardware: %d".formatted(fkHardware), Modulo.ENVIO_DADOS);
 
-                } catch (RuntimeException e){
+                } catch (RuntimeException e) {
                     e.getMessage();
-                    GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão: RAM", Modulo.ALERTA);
+                    GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão: Ram", Modulo.ALERTA);
                 }
 
-                if(looca.getMemoria().getEmUso() >= 70 && looca.getMemoria().getEmUso() < 85){
+                if (looca.getMemoria().getEmUso() >= 70 && looca.getMemoria().getEmUso() < 85) {
                     try {
                         JSONObject json = new JSONObject();
                         json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
                         Slack.sendMessage(json);
-                        GeradorLog.log(TagNiveisLog.WARN,"Envio alerta Slack!", Modulo.ALERTA);
+                        GeradorLog.log(TagNiveisLog.WARN, "Alerta amarelo de monitoramento via Slack", Modulo.ALERTA);
+                        GeradorLog.log(TagNiveisLog.WARN, "Alteração nos indicadores da RAM!", Modulo.ALERTA);
                     } catch (IOException e) {
                         System.out.println("Deu ruim no slack" + e);
-                        GeradorLog.log(TagNiveisLog.ERROR, "Erro conexão Slack!", Modulo.ALERTA);
+                        GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão com Slack!", Modulo.ALERTA);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
 
-                } else if(looca.getMemoria().getEmUso() >= 80) {
+                } else if (looca.getMemoria().getEmUso() >= 80) {
                     try {
                         JSONObject json = new JSONObject();
                         json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
                         Slack.sendMessage(json);
-                        GeradorLog.log(TagNiveisLog.WARN, "Envio alerta Slack!", Modulo.ALERTA);
+                        GeradorLog.log(TagNiveisLog.WARN, "Alerta VERMELHO de monitoramento via Slack", Modulo.ALERTA);
+                        GeradorLog.log(TagNiveisLog.WARN, "Alteração precupante nos indicadores da RAM!", Modulo.ALERTA);
                     } catch (IOException e) {
                         System.out.println("Deu ruim no slack" + e);
-                        GeradorLog.log(TagNiveisLog.WARN, "Erro de conexão Slack!", Modulo.ALERTA);
+                        GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão com Slack!", Modulo.ALERTA);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -134,19 +143,5 @@ public class Ram extends Hardware {
             }
         };
         timer.schedule(tarefa, 1000, 5000);
-    }
-
-    @Override
-    public void gerarRelatorio() {
-        System.out.println("""
-                O relatório de RAM possui maior relevância no contexto Transformação e LOAD de ETL.
-                Seu monitoramento garante um processamento de dados eficaz operando de maneira
-                veloz mesmo com operações intensas de tratamento de dados. Principalmente em leitura,
-                garantindo que haja espaço livre para temporariamente armazenar vários dados lidos.
-                A saúde da sua RAM em tempo real:
-                RAM: %s
-                Valor em uso: %s
-                Valor total: %s
-                Valor disponível: %s""".formatted(looca.getMemoria(), looca.getMemoria().getEmUso(), looca.getMemoria().getTotal(),looca.getMemoria().getDisponivel()));
     }
 }

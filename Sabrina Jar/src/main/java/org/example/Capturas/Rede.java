@@ -37,7 +37,7 @@ public class Rede extends Hardware {
         super(tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina, looca, conexao, conexao02, con, con02);
     }
 
-    public Rede(Integer fkMaquina){
+    public Rede(Integer fkMaquina) {
         this.fkMaquina = fkMaquina;
     }
 
@@ -53,39 +53,40 @@ public class Rede extends Hardware {
     public void capturarDados(Integer fkMaquina) {
         tipoHardware = TipoHardware.REDE;
         nomeHardware = looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getNomeExibicao();
-        unidadeCaptacao = "pacotes";
+        unidadeCaptacao = null;
         valorTotal = null;
-//        fkMaquina = 500;
+
+        GeradorLog.log(TagNiveisLog.INFO, "Iniciando captura de dados do Hardware: " + TipoHardware.REDE, Modulo.CAPTURA_HARDWARE);
+        GeradorLog.log(TagNiveisLog.INFO, "Descrição: %s".formatted(nomeHardware), Modulo.CAPTURA_HARDWARE);
+        GeradorLog.log(TagNiveisLog.INFO, "Unidade captura: Sem registros sobre este dado.", Modulo.CAPTURA_HARDWARE);
+        GeradorLog.log(TagNiveisLog.INFO, "Valor total: Sem registros sobre este dado.".formatted(valorTotal), Modulo.CAPTURA_HARDWARE);
 
         try {
 
-            String queryInfoHardware = "INSERT INTO infoHardware (tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina)" +
+            String queryInfoHardware = "INSERT INTO InfoHardware (tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina)" +
                     "VALUES (?, ?, ?, ? , ?)";
-            con.update(queryInfoHardware, tipoHardware.getNome(), nomeHardware, unidadeCaptacao, valorTotal, fkMaquina);
+            con02.update(queryInfoHardware, tipoHardware.getNome(), nomeHardware, unidadeCaptacao, valorTotal, fkMaquina);
 
-            GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.INFO_HARDWARE.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-            GeradorLog.log(TagNiveisLog.INFO, queryInfoHardware, Modulo.CAPTURA_HARDWARE);
-
-             try{
-                 con02.update(queryInfoHardware, tipoHardware.getNome(), nomeHardware, unidadeCaptacao, valorTotal, fkMaquina);
-
-                 GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Server DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-                 GeradorLog.log(TagNiveisLog.INFO, queryInfoHardware, Modulo.CAPTURA_HARDWARE);
-
-             } catch (RuntimeException e){
-                 e.getMessage();
-             }
+            GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! -> Re;Data SQL Server DB / Tabela " + Tabelas.INFO_HARDWARE, Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Hardware: %s".formatted(tipoHardware), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Descrição: %s".formatted(nomeHardware), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Unidade captura: Sem registros sobre este dado.", Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Valor total: Sem registros sobre este dado.", Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Máquina referida: %s".formatted(fkMaquina), Modulo.ENVIO_DADOS);
 
         } catch (RuntimeException e) {
             System.out.println("Erro de conexão 'Rede' sql" + e.getMessage());
+            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão: Rede", Modulo.ALERTA);
         }
     }
 
     @Override
     public void inserirDados() {
-        String queryIdHardware = "SELECT LAST_INSERT_ID()";
-        Integer fkHardware = con.queryForObject(queryIdHardware, Integer.class); // Espera que o retorno seja inteiro
 
+    }
+
+    @Override
+    public void inserirDados(Integer fkHardware) {
         try {
             Timer timer = new Timer();
             TimerTask tarefa = new TimerTask() {
@@ -134,68 +135,50 @@ public class Rede extends Hardware {
 
                     String nomeRegistro = "Pacotes Enviados";
 
-                        queryRegistro = "INSERT INTO registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
+                    queryRegistro = "INSERT INTO Registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
                             "VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
-                    con.update(queryRegistro, nomeRegistro, pacotesEnviados, fkHardware);
+                    con02.update(queryRegistro, nomeRegistro, pacotesEnviados, fkHardware);
 
-                    GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-                    GeradorLog.log(TagNiveisLog.INFO, queryRegistro, Modulo.CAPTURA_HARDWARE);
-
-                    try{
-                        queryRegistroServer = "INSERT INTO registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
-                                "VALUES (?, ?, SYSDATETIME(), ?)";
-                        con02.update(queryRegistroServer, nomeRegistro, interfaces.get(interfaceCorreta).getPacotesEnviados(), fkHardware);
-
-                        GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Server DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-                        GeradorLog.log(TagNiveisLog.INFO, queryRegistroServer, Modulo.CAPTURA_HARDWARE);
-
-                    } catch (RuntimeException e){
-                        e.getMessage();
-                    }
+                    GeradorLog.log(TagNiveisLog.INFO, "Novo registro capturado! -> Tabela: " + Tabelas.REGISTRO, Modulo.ALERTA);
+                    GeradorLog.log(TagNiveisLog.INFO, "Nome: %s".formatted(nomeRegistro), Modulo.ENVIO_DADOS);
+                    GeradorLog.log(TagNiveisLog.INFO, "Valor capturado: " + pacotesEnviados, Modulo.ENVIO_DADOS);
+                    GeradorLog.log(TagNiveisLog.INFO, "ID Hardware: %d".formatted(fkHardware), Modulo.ENVIO_DADOS);
 
                     nomeRegistro = "Pacotes Recebidos";
 
-                    queryRegistro = "INSERT INTO registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
+                    queryRegistro = "INSERT INTO Registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
                             "VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
-                    con.update(queryRegistro, nomeRegistro, pacotesRecebidos, fkHardware);
+                    con02.update(queryRegistro, nomeRegistro, pacotesRecebidos, fkHardware);
 
-                    GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-                    GeradorLog.log(TagNiveisLog.INFO, queryRegistro, Modulo.CAPTURA_HARDWARE);
+                    GeradorLog.log(TagNiveisLog.INFO, "Novo registro capturado! -> Tabela: " + Tabelas.REGISTRO, Modulo.ALERTA);
+                    GeradorLog.log(TagNiveisLog.INFO, "Nome: %s".formatted(nomeRegistro), Modulo.ENVIO_DADOS);
+                    GeradorLog.log(TagNiveisLog.INFO, "Valor capturado: " + pacotesRecebidos, Modulo.ENVIO_DADOS);
+                    GeradorLog.log(TagNiveisLog.INFO, "ID Hardware: %d".formatted(fkHardware), Modulo.ENVIO_DADOS);
 
-                    try{
-                        queryRegistroServer = "INSERT INTO registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
-                                "VALUES (?, ?, SYSDATETIME(), ?)";
-                        con02.update(queryRegistroServer, nomeRegistro, pacotesRecebidos, fkHardware);
-
-                        GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Server DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-                        GeradorLog.log(TagNiveisLog.INFO, queryRegistro, Modulo.CAPTURA_HARDWARE);
-
-                    } catch (RuntimeException e){
-                        e.getMessage();
-                    }
-
-                    if(pacotesRecebidos <= 7 && pacotesRecebidos > 3){
+                    if (pacotesRecebidos <= 7 && pacotesRecebidos > 3) {
                         try {
                             JSONObject json = new JSONObject();
                             json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
                             Slack.sendMessage(json);
-                            GeradorLog.log(TagNiveisLog.WARN, "Envio alerta Slack!", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.WARN, "Alerta amarelo de monitoramento via Slack", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.WARN, "Alteração nos indicadores da REDE!", Modulo.ALERTA);
                         } catch (IOException e) {
                             System.out.println("Deu ruim no slack" + e);
-                            GeradorLog.log(TagNiveisLog.WARN, "Erro conexão Slack!", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão com Slack!", Modulo.ALERTA);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
 
-                    } else if(pacotesRecebidos <= 3) {
+                    } else if (pacotesRecebidos <= 3) {
                         try {
                             JSONObject json = new JSONObject();
                             json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
                             Slack.sendMessage(json);
-                            GeradorLog.log(TagNiveisLog.WARN, "Envio alerta Slack!", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.WARN, "Alerta VERMELHO de monitoramento via Slack", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.WARN, "Alteração precupante nos indicadores da REDE!", Modulo.ALERTA);
                         } catch (IOException e) {
                             System.out.println("Deu ruim no slack" + e);
-                            GeradorLog.log(TagNiveisLog.WARN, "Erro conexão Slack!", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão com Slack!", Modulo.ALERTA);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -210,17 +193,7 @@ public class Rede extends Hardware {
             timer.schedule(tarefa, 1000, 5000);
         } catch (RuntimeException e) {
             System.out.println("Erro de conexão 'Rede' sql" + e.getMessage());
-            GeradorLog.log(TagNiveisLog.WARN, "Erro de conexão: REDE", Modulo.ALERTA);
+            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão SQL em Rede", Modulo.ALERTA);
         }
-    }
-
-    @Override
-    public void gerarRelatorio() {
-        System.out.println("""
-                O relatório de REDE possui maior relevância no contexto Extração de ETL.
-                Seu monitoramento garante a estabilidade da conexão que viabiliza e sustenta a extração de dados
-                de maneira ininterrupta. Garantindo um processo contínuo...
-                A saúde da sua REDE em tempo real:
-                REDE: %s""".formatted(looca.getRede()));
     }
 }

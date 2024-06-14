@@ -1,11 +1,11 @@
 package org.example;
 
 public enum TipoHardware {
-    CPU ("Cpu"),
-    RAM ("Ram"),
-    DISCO ("Disco"),
-    VOLUME ("Volume)"),
-    REDE ("Rede");
+    CPU("Cpu"),
+    RAM("Ram"),
+    DISCO("Disco"),
+    VOLUME("Volume)"),
+    REDE("Rede");
 
     private final String nome;
 

@@ -19,7 +19,7 @@ public class Inovacao {
     public Inovacao() {
     }
 
-    public void reconhecerUser(){
+    public void reconhecerUser() {
         try {
             String comandoBash = "whoami";
             Process comando = Runtime.getRuntime().exec(comandoBash);
@@ -36,10 +36,10 @@ public class Inovacao {
         }
     }
 
-    public String listarDiretorioMidia(){
+    public String listarDiretorioMidia() {
         try {
             String comandoBash = """
-                        ls /media/%s/""".formatted(nomeUser);
+                    ls /media/%s/""".formatted(nomeUser);
 
             Process comando = Runtime.getRuntime().exec(comandoBash);
 
@@ -56,8 +56,7 @@ public class Inovacao {
     }
 
 
-
-    public String setarSenha(){
+    public String setarSenha() {
         Scanner ScannerSenha = new Scanner(System.in);
 
         System.out.println("forneça sua Senha");
@@ -67,7 +66,7 @@ public class Inovacao {
         return senha;
     }
 
-    public void ejetarUsb(){
+    public void ejetarUsb() {
         Timer timer = new Timer();
         TimerTask tarefa = new TimerTask() {
             @Override
@@ -82,7 +81,7 @@ public class Inovacao {
                     Process process = Runtime.getRuntime().exec(comandoExecutar);
 
                     int saida = process.waitFor();
-                    if (saida == 0){
+                    if (saida == 0) {
                         System.out.println("o USB foi ejetado com sucesso");
                     }
                 } catch (IOException e) {
@@ -91,7 +90,7 @@ public class Inovacao {
                     throw new RuntimeException(e);
                 }
             }
-            };
+        };
         timer.schedule(tarefa, 1000, 5000);
     }
 

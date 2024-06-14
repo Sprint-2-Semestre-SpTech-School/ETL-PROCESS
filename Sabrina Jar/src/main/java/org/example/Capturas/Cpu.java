@@ -30,7 +30,7 @@ public class Cpu extends Hardware {
         super(tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina, looca, conexao, conexao02, con, con02);
     }
 
-    public Cpu(Integer fkMaquina){
+    public Cpu(Integer fkMaquina) {
         this.fkMaquina = fkMaquina;
     }
 
@@ -47,91 +47,75 @@ public class Cpu extends Hardware {
 
         tipoHardware = TipoHardware.CPU;
         nomeHardware = looca.getProcessador().getNome();
-        unidadeCaptacao = "%";
+        unidadeCaptacao = "Ghz";
         valorTotal = (double) looca.getProcessador().getFrequencia() / 1e9;
-//        fkMaquina = 500;
 
-    try {
-        JdbcTemplate con = conexao.getConexaoBanco();
+        GeradorLog.log(TagNiveisLog.INFO, "Iniciando captura de dados do Hardware: " + TipoHardware.CPU, Modulo.CAPTURA_HARDWARE);
+        GeradorLog.log(TagNiveisLog.INFO, "Descrição: %s".formatted(nomeHardware), Modulo.CAPTURA_HARDWARE);
+        GeradorLog.log(TagNiveisLog.INFO, "Unidade captura: %s".formatted(unidadeCaptacao), Modulo.CAPTURA_HARDWARE);
+        GeradorLog.log(TagNiveisLog.INFO, "Valor total: %.2f".formatted(valorTotal), Modulo.CAPTURA_HARDWARE);
 
-
-        String queryInfoHardware = "INSERT INTO infoHardware (tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina)" +
-                "VALUES (?, ?, ?, ? , ?)";
-        con.update(queryInfoHardware, tipoHardware.getNome(), nomeHardware, unidadeCaptacao, valorTotal, fkMaquina);
-
-        GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.INFO_HARDWARE.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-        GeradorLog.log(TagNiveisLog.INFO, queryInfoHardware, Modulo.CAPTURA_HARDWARE);
-
-        try{
-            JdbcTemplate con02 = conexao02.getConexaoBanco();
+        try {
+            String queryInfoHardware = "INSERT INTO InfoHardware (tipoHardware, nomeHardware, unidadeCaptacao, valorTotal, fkMaquina)" +
+                    "VALUES (?, ?, ?, ? , ?)";
             con02.update(queryInfoHardware, tipoHardware.getNome(), nomeHardware, unidadeCaptacao, valorTotal, fkMaquina);
 
-            GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Server DB: Table: %s".formatted(Tabelas.INFO_HARDWARE.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-            GeradorLog.log(TagNiveisLog.INFO, queryInfoHardware, Modulo.CAPTURA_HARDWARE);
+            GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! -> Re;Data SQL Server DB / Tabela " + Tabelas.INFO_HARDWARE, Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Hardware: %s".formatted(tipoHardware), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Descrição: %s".formatted(nomeHardware), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Unidade de captura: %s".formatted(unidadeCaptacao), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Valor total: %.2f".formatted(valorTotal), Modulo.ENVIO_DADOS);
+            GeradorLog.log(TagNiveisLog.INFO, "Máquina referida: %s".formatted(fkMaquina), Modulo.ENVIO_DADOS);
 
-        } catch (RuntimeException e){
-            System.out.println(e.getMessage());
-            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão SQL Server & Local MySQL", Modulo.ALERTA);
+        } catch (RuntimeException e) {
+            System.out.println("Erro de conexão 'Cpu' sql" + e.getMessage());
+            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão SQL / Tabela " + Tabelas.INFO_HARDWARE, Modulo.ENVIO_DADOS);
         }
-
-    }catch (RuntimeException e){
-        System.out.println("Erro de conexão 'Cpu' sql" + e.getMessage());
-        GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão SQL: %s".formatted(Tabelas.INFO_HARDWARE.getDescricaoTabela()), Modulo.ALERTA);
-    }
     }
 
     @Override
-    public void inserirDados() {
+    public void inserirDados(Integer fkHardware) {
         try {
             String nomeRegistro = "usoCpu";
-
-            String queryIdHardware = "SELECT LAST_INSERT_ID()";
-            Integer fkHardware = con.queryForObject(queryIdHardware, Integer.class); // Espera que o retorno seja inteiro
 
             Timer timer = new Timer();
             TimerTask tarefa = new TimerTask() {
                 @Override
                 public void run() {
 
-                    String queryRegistro = "INSERT INTO registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
+                    String queryRegistro = "INSERT INTO Registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
                             "VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
-                    con.update(queryRegistro, nomeRegistro, looca.getProcessador().getUso(), fkHardware);
+                    con02.update(queryRegistro, nomeRegistro, looca.getProcessador().getUso(), fkHardware);
 
-                    GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-                    GeradorLog.log(TagNiveisLog.INFO, queryRegistro, Modulo.CAPTURA_HARDWARE);
+                    GeradorLog.log(TagNiveisLog.INFO, "Novo registro capturado! -> Tabela: " + Tabelas.REGISTRO, Modulo.ALERTA);
+                    GeradorLog.log(TagNiveisLog.INFO, "Nome: %s".formatted(nomeRegistro), Modulo.ENVIO_DADOS);
+                    GeradorLog.log(TagNiveisLog.INFO, "Valor capturado: " + looca.getProcessador().getUso(), Modulo.ENVIO_DADOS);
+                    GeradorLog.log(TagNiveisLog.INFO, "ID Hardware: %d".formatted(fkHardware), Modulo.ENVIO_DADOS);
 
-                    try {
-                        con02.update(queryRegistro, nomeRegistro, looca.getProcessador().getUso(), fkHardware);
-
-                        GeradorLog.log(TagNiveisLog.INFO, "Dados enviados com sucesso! Re;Data SQL Local DB: Table: %s".formatted(Tabelas.REGISTRO.getDescricaoTabela()), Modulo.ENVIO_DADOS);
-                        GeradorLog.log(TagNiveisLog.INFO, queryRegistro, Modulo.CAPTURA_HARDWARE);
-
-                    } catch (RuntimeException e){
-                        System.out.println("Erro de Conexão sql Server" + e.getMessage());
-                        GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão: SQL server & MySQL Local DB", Modulo.ALERTA);
-                    }
-
-                    if(looca.getProcessador().getUso() >= 70 && looca.getProcessador().getUso() < 85){
+                    if (looca.getProcessador().getUso() >= 70 && looca.getProcessador().getUso() < 85) {
                         try {
                             JSONObject json = new JSONObject();
                             json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
                             Slack.sendMessage(json);
-                            GeradorLog.log(TagNiveisLog.WARN, "Alerta do Slack!", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.WARN, "Alerta amarelo de monitoramento via Slack", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.WARN, "Alteração nos indicadores do processador!", Modulo.ALERTA);
                         } catch (IOException e) {
                             System.out.println("Deu ruim no slack" + e);
-                            GeradorLog.log(TagNiveisLog.ERROR, "Erro conexão Slack!", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão com Slack!", Modulo.ALERTA);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
 
-                    } else if(looca.getProcessador().getUso() >= 80) {
+                    } else if (looca.getProcessador().getUso() >= 80) {
                         try {
                             JSONObject json = new JSONObject();
                             json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
                             Slack.sendMessage(json);
-                            GeradorLog.log(TagNiveisLog.WARN, "Alerta do Slack!", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.WARN, "Alerta VERMELHO de monitoramento via Slack", Modulo.ALERTA);
+                            GeradorLog.log(TagNiveisLog.WARN, "Alteração precupante nos indicadores do processador!", Modulo.ALERTA);
                         } catch (IOException e) {
                             System.out.println("Deu ruim no slack" + e);
+                            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão com Slack!", Modulo.ALERTA);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -139,22 +123,15 @@ public class Cpu extends Hardware {
                 }
             };
             timer.schedule(tarefa, 1000, 5000);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             System.out.println("Erro de conexão 'Cpu' mysql" + e.getMessage());
-            GeradorLog.log(TagNiveisLog.INFO, "Erro de conexão! Mysql CPU", Modulo.GERAL);
+            GeradorLog.log(TagNiveisLog.ERROR, "Erro de conexão SQL em CPU", Modulo.ALERTA);
         }
     }
 
     @Override
-    public void gerarRelatorio() {
-        System.out.println("""
-                O relatório de CPU possui maior relevância no contexto Transformação de ETL.
-                Seu monitoramento garante um processamento de dados eficaz operando de maneira
-                veloz mesmo com operações intensas de tratamento de dados.
-                A saúde da sua CPU em tempo real:
-                CPU: %s
-                Uso: %.2f
-                Frequência: %s""".formatted(looca.getProcessador().getNome(), looca.getProcessador().getUso(), looca.getProcessador().getFrequencia()));
+    public void inserirDados() {
+
     }
 }
 

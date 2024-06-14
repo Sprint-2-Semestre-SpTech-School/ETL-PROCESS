@@ -44,7 +44,11 @@ public abstract class Hardware {
     }
 
     public abstract void capturarDados(Integer fkMaquina);
+
     public abstract void capturarDados();
+
+    public abstract void inserirDados(Integer fkMaquina);
+
     public abstract void inserirDados();
-    public abstract void gerarRelatorio();
+
 }

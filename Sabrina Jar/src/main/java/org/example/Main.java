@@ -6,30 +6,35 @@ import org.example.Capturas.Disco;
 import org.example.Capturas.Ram;
 import org.example.Capturas.Rede;
 import org.example.Jdbc.Conexao;
+import org.example.Jdbc.ConexaoServer;
 import org.example.logging.GeradorLog;
+import org.example.logging.Modulo;
+import org.example.logging.TagNiveisLog;
 import org.json.JSONObject;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.IOException;
-import java.time.temporal.ChronoUnit;
 
 public class Main {
-    private static final Conexao conexao = new Conexao();
-    private static final JdbcTemplate con = conexao.getConexaoBanco();
+//    private static final Conexao conexao = new Conexao();
+    private static final ConexaoServer conexao = new ConexaoServer();
+//    private static final JdbcTemplate con = conexao.getConexaoBanco();
+    private static final JdbcTemplate con02 = conexao.getConexaoBanco();
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        GeradorLog.cleanerOldLogs(1440, 2, ChronoUnit.DAYS);
         Looca looca = new Looca();
         Cpu cpu = new Cpu();
         Ram ram = new Ram();
         Disco disco = new Disco();
         Rede rede = new Rede();
 
+        GeradorLog.cleanerOldLogs(7);
+        GeradorLog.log(TagNiveisLog.INFO, "Iniciando aplicação de captura...", Modulo.GERAL);
+
         Login validarLogin = new Login();
         validarLogin.validacaoLogin();
-        System.out.println(validarLogin);
 
-        if (!looca.getSistema().getSistemaOperacional().equalsIgnoreCase("Windows")) {
+        if (!looca.getSistema().getSistemaOperacional().equalsIgnoreCase("Windows")) { // Inovação Linux
             Inovacao testeInova = new Inovacao();
             testeInova.setarSenha();
             testeInova.ejetarUsb();
@@ -38,33 +43,50 @@ public class Main {
         try {
             JSONObject json = new JSONObject();
             json.put("text", "Login feito no JAVA " + "Teste para saber se eu posso dividir");
+            GeradorLog.log(TagNiveisLog.INFO, "Autenticação confirmada via Slack", Modulo.GERAL);
             Slack.sendMessage(json);
         } catch (IOException e) {
             System.out.println("Deu ruim no slack" + e);
+            GeradorLog.log(TagNiveisLog.ERROR, "Tentativa falha de envio de mensagem no Slack!", Modulo.GERAL);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
         Maquina maquina = new Maquina();
 
-        System.out.println("Função" + maquina.consultarUsuarioPorId());
-
-
-        if (maquina.consultarUsuarioPorId() != null) {
-            System.out.println("É necessário ter uma máquina associada ao projeto. Por favor insira-a no website");
-            System.exit(0);
-//        } else if (maquina.consultarUsuarioPorId().equals(System.getProperty("user.name"))){
-        } else {
-            Integer idMaquina = maquina.consultarId();
+        if (maquina.consultarUsuarioPorId() == null) {
             Integer idProjeto = maquina.consultarProjeto();
             Integer idEmpresa = maquina.consultarEmpresa();
+            Integer idMaquina = maquina.consultarId();
 
-            String queryVerificarTipoHardwareExiste = "SELECT COUNT(*) FROM infoHardware Where fkMaquina = %d".formatted(idMaquina);
-            Integer contador = con.queryForObject(queryVerificarTipoHardwareExiste, Integer.class);
+            maquina.capturarDadosMaquina();
+            maquina.inserirDadosMaquina(idProjeto, idEmpresa);
+
+            cpu.capturarDados(idMaquina);
+
+            ram.capturarDados(idMaquina);
+
+            disco.capturarDados(idMaquina);
+
+            rede.capturarDados(idMaquina);
+
+            Integer idHardwareCpu = maquina.consultarHardwareCpu();
+            Integer idHardwareRam = maquina.consultarHardwareRam();
+            Integer idHardwareDisco = maquina.consultarHardwareDisco();
+            Integer idHardwareRede = maquina.consultarHardwareRede();
+
+            cpu.inserirDados(idHardwareCpu);
+            ram.inserirDados(idHardwareRam);
+            disco.inserirDados(idHardwareDisco);
+            rede.inserirDados(idHardwareRede);
+
+        } else {
+            Integer idMaquina = maquina.consultarId();
+
+            String queryVerificarTipoHardwareExiste = "SELECT COUNT(*) FROM InfoHardware Where fkMaquina = %d".formatted(idMaquina);
+            Integer contador = con02.queryForObject(queryVerificarTipoHardwareExiste, Integer.class);
 
             if (contador == 0) {
-                maquina.inserirDadosMaquina(idProjeto, idEmpresa);
-
                 cpu.capturarDados(idMaquina);
 
                 ram.capturarDados(idMaquina);
@@ -73,64 +95,38 @@ public class Main {
 
                 rede.capturarDados(idMaquina);
 
-//                String queryIdHardware = "SELECT idHardware from infoHardware where fkMaquina = %d"
-//                        .formatted(idMaquina);
-//                Integer idHardware = con.queryForObject(queryIdHardware, Integer.class);
+                // CONSULTANDO IDS PRA INSERIR NO HARDAWRE CORRETO
+                Integer idHardwareCpu = maquina.consultarHardwareCpu();
+                Integer idHardwareRam = maquina.consultarHardwareRam();
+                Integer idHardwareDisco = maquina.consultarHardwareDisco();
+                Integer idHardwareRede = maquina.consultarHardwareRede();
 
-                cpu.inserirDados();
-                ram.inserirDados();
-                disco.inserirDados();
-                rede.inserirDados();
+                cpu.inserirDados(idHardwareCpu);
+                ram.inserirDados(idHardwareRam);
+                disco.inserirDados(idHardwareDisco);
+                rede.inserirDados(idHardwareRede);
 
             } else {
-                cpu.inserirDados();
-                ram.inserirDados();
-                disco.inserirDados();
-                rede.inserirDados();
-            }
-        }
+                // CONSULTANDO IDS PRA INSERIR NO HARDAWRE CORRETO
+                Integer idHardwareCpu = maquina.consultarHardwareCpu();
+                Integer idHardwareRam = maquina.consultarHardwareRam();
+                Integer idHardwareDisco = maquina.consultarHardwareDisco();
+                Integer idHardwareRede = maquina.consultarHardwareRede();
 
+                cpu.inserirDados(idHardwareCpu);
+                ram.inserirDados(idHardwareRam);
+                disco.inserirDados(idHardwareDisco);
+                rede.inserirDados(idHardwareRede);
 
-//        if(){
-//            maquina = new Maquina(400, 1)
-//            Maquina maquinaCriar = new Maquina(400, 1);
-//            maquinaCriar.capturarDadosMaquina();
-//        }
-
-
-//        maquina.inserirDadosMaquina();
-
-
-//        Integer fkMaquina = maquina.consultarId();
-//        System.out.println("fkMaquina: " + fkMaquina);
-//        System.out.println(maquina);
-
-//        Cpu cpu = new Cpu(fkMaquina); // Isso tem que ficar em baixo
-//        cpu.capturarDados();
-//        cpu.inserirDados();
-//
-//        Ram ram = new Ram();
-//        ram.capturarDados();
-//        ram.inserirDados();
-//
-//        Disco disco = new Disco();
-//        disco.capturarDados();
-//        disco.inserirDados();
-//
-//        Rede rede = new Rede();
-//        rede.capturarDados();
-//        rede.inserirDados();
-
-
-            // METODO PARA INSTANCIA, CRIAR E PLOTAR O ALERTA NO SLACK:
-//        if(temperatura > metrica) {
-            try {
-                JSONObject json = new JSONObject();
-                json.put("text", "Aqui colocaremos os alertas!!");
-                Slack.sendMessage(json);
-            } catch (IOException e) {
-                System.out.println("Deu ruim no slack" + e);
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("text", "Aqui colocaremos os alertas!!");
+                    Slack.sendMessage(json);
+                } catch (IOException e) {
+                    System.out.println("Deu ruim no slack" + e);
+                }
             }
         }
     }
+}
 

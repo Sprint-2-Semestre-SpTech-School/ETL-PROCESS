@@ -40,11 +40,10 @@
             }
         }
 
-        public static void cleanerOldLogs(int tempo, int i, ChronoUnit unidade) {
+        public static void cleanerOldLogs(int dias) {
             File logDir = new File(LOG_DIR);
             if (!logDir.exists() || !logDir.isDirectory()) {
                 System.out.println("Diretório de logs não encontrado: " + LOG_DIR);
-                return;
             }
 
             File[] logFiles = logDir.listFiles();
@@ -53,7 +52,7 @@
 
             }
 
-            Instant limite = Instant.now().minus(tempo, unidade);
+            Instant limite = Instant.now().minus(dias, ChronoUnit.DAYS);
 
             for (File logFile : logFiles) {
                 try {

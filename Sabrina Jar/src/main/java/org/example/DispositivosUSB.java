@@ -40,7 +40,7 @@ public class DispositivosUSB {
     }
 
     public void monitorarPortas() {
-        String queryInsert = "INSERT IGNORE INTO dispositivoUsb (idDevice, descricao) values (?, ?)";
+        String queryInsert = "INSERT IGNORE INTO DispositivoUsb (idDevice, descricao) values (?, ?)";
 //        String queryCheck = "SELECT "
         try {
             Timer timer = new Timer();
@@ -57,11 +57,6 @@ public class DispositivosUSB {
                         idDevice = looca.getDispositivosUsbGrupo().getDispositivosUsb().get(i).getIdDispositivoUsbExclusivo();
                         descricao = looca.getDispositivosUsbGrupo().getDispositivosUsb().get(i).getNome();
 
-//                        Integer qtdDispositivos = con.queryForObject(queryCheck, Integer.class);
-//
-//                        if(dispositivosUsb.get(i).getIdDispositivoUsbExclusivo().equals(idDevice)){
-//                            System.out.println("Dispositivo já inserido");
-//                        } else {
                         con.update(queryInsert, idDevice, descricao);
                     }
                 }
@@ -83,13 +78,21 @@ public class DispositivosUSB {
                     System.out.println("Executando Comando");
                     try {
                         idDevice = "HID\\VID_1A2C&PID_0042\\6&7946341&0&0000";
-
                         String querySql = "select idDevice from blocklist join dispositivousb on fkDeviceId = idDispositivo;";
                         List<String> dispBloqueados = con.queryForList(querySql, String.class);
 
-                        for (String deviceDaVez : dispBloqueados) {
-                            idDevice = deviceDaVez;
-                            bloquearDispositivo(idDevice);
+                        String querySql2 = "select idDevice from dispositivoUsb;";
+                        List<String> todosDispositivos = con.queryForList(querySql2, String.class);
+
+
+                        for (String deviceDaVez : todosDispositivos) {
+                            if (dispBloqueados.contains(deviceDaVez)) {
+                                idDevice = deviceDaVez;
+                                bloquearDispositivo(idDevice);
+                            } else {
+                                idDevice = deviceDaVez;
+                                desbloquearDispositivo(idDevice);
+                            }
                         }
                     } catch (Exception e) {
                     }
@@ -105,6 +108,59 @@ public class DispositivosUSB {
 
                         try (FileWriter writer = new FileWriter(pathTemporario.toFile())) {
                             writer.write("Disable-PnpDevice -InstanceId '" + idDevice + "' -Confirm:$false");
+                            System.out.println("Script PowerShell escrito no arquivo temporário.");
+                        } catch (Exception e) {
+                            System.err.println("Erro ao escrever no arquivo temporário.");
+                            e.printStackTrace();
+                        }
+
+                        String comandoCompleto = String.format(
+                                "powershell.exe -NoLogo -Command \"Start-Process powershell -Verb RunAs -WindowStyle Hidden -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File %s'\"",
+                                pathTemporario.toAbsolutePath().toString()
+                        );
+
+                        System.out.println("Comando PowerShell: " + comandoCompleto);
+
+                        Process processo = Runtime.getRuntime().exec(comandoCompleto);
+
+                        // Captura a saída do processo
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(processo.getInputStream()));
+                        BufferedReader errorReader = new BufferedReader(new InputStreamReader(processo.getErrorStream()));
+                        String line;
+
+                        System.out.println("Saída do comando:");
+                        while ((line = reader.readLine()) != null) {
+                            System.out.println(line);
+                        }
+
+                        System.out.println("Erros do comando:");
+                        while ((line = errorReader.readLine()) != null) {
+                            System.out.println(line);
+                        }
+
+                        // Aguarda o término do processo
+                        int exitCode = processo.waitFor();
+                        System.out.println("Comando executado com código de saída: " + exitCode);
+
+                        // Encerra o processo
+                        processo.destroy();
+
+                    } catch (IOException | InterruptedException e) {
+                        System.err.println("Erro durante a execução do comando PowerShell.");
+                        e.printStackTrace();
+                    }
+                }
+
+                public void desbloquearDispositivo(String idDevice) {
+                    try {
+                        // Cria um script PowerShell temporário com a extensão .ps1 correta
+                        Path pathTemporario = Files.createTempFile("disable_device", ".ps1");
+                        System.out.println("Arquivo temporário criado em: " + pathTemporario.toAbsolutePath());
+
+                        pathTemporario.toFile().deleteOnExit(); // Garante que o arquivo será deletado na saída
+
+                        try (FileWriter writer = new FileWriter(pathTemporario.toFile())) {
+                            writer.write("Enable-PnpDevice -InstanceId '" + idDevice + "' -Confirm:$false");
                             System.out.println("Script PowerShell escrito no arquivo temporário.");
                         } catch (Exception e) {
                             System.err.println("Erro ao escrever no arquivo temporário.");
