@@ -5,9 +5,9 @@ import org.example.Capturas.Cpu;
 import org.example.Capturas.Disco;
 import org.example.Capturas.Ram;
 import org.example.Capturas.Rede;
-import org.example.Jdbc.Conexao;
 import org.example.Jdbc.ConexaoServer;
 import org.example.logging.GeradorLog;
+import org.example.relatorioLogs.GeradorResumo;
 import org.example.logging.Modulo;
 import org.example.logging.TagNiveisLog;
 import org.json.JSONObject;
@@ -127,6 +127,7 @@ public class Main {
                 }
             }
         }
+        GeradorResumo.gerarArquivoResumo();
     }
 }
 
