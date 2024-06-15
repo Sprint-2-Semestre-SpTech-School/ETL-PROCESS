@@ -1,5 +1,7 @@
     package org.example.logging;
 
+    import org.example.relatorioLogs.GeradorResumo;
+
     import java.io.File;
     import java.io.FileWriter;
     import java.io.IOException;
@@ -34,6 +36,9 @@
                 out.println(currentDateTime + " - " + tag.getDescricao() + " - " + module.getID() + " - " + hostName + " - " + message);
 
                 out.close();
+
+                GeradorResumo.atualizarEstatisticas(tag);
+
             } catch (IOException e){
                 System.out.println("Houve um erro ao registrar o log!");
                 e.printStackTrace();
@@ -57,8 +62,8 @@
             for (File logFile : logFiles) {
                 try {
                     Path filePath = logFile.toPath();
-                    BasicFileAttributes attrs = Files.readAttributes(filePath, BasicFileAttributes.class);
-                    Instant fileTime = attrs.creationTime().toInstant();
+                    BasicFileAttributes atributosArquivo = Files.readAttributes(filePath, BasicFileAttributes.class);
+                    Instant fileTime = atributosArquivo.creationTime().toInstant();
 
                     if (fileTime.isBefore(limite)) {
                         if (logFile.delete()) {
