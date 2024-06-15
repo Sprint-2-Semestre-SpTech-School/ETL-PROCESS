@@ -77,7 +77,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.example.Main</mainClass>
+                            <mainClass>org.example.MainGrupo</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
