@@ -91,6 +91,18 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>17</source> <!-- ajuste conforme sua versão de Java -->
+                    <target>17</target> <!-- ajuste conforme sua versão de Java -->
+                    <encoding>UTF-8</encoding>
+                    <classpathScope>compile</classpathScope>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>
