@@ -29,15 +29,31 @@ public class GeradorResumo {
     }
 
     public static void gerarArquivoResumo(){
-        String dirResumo = "src/main/java/org/example/logging/resumoLogs.txt";
+        String dirResumo = "src/main/java/org/example/logging/ResumoLogs.txt";
         try {
             PrintWriter out = new PrintWriter(new FileWriter(dirResumo));
+            out.println("---------------------------------------");
             out.println("Resumo dos Logs - Data: " + dataResumo);
             out.println("Total de logs: " + totalLogs);
-            out.println("Erros: " + totalErros);
-            out.println("Informativos: " + totalInformativos);
-            out.println("Avisos: " + totalAvisos);
+            out.println("Logs de Erros: " + totalErros);
+            out.println("Logs Informativos: " + totalInformativos);
+            out.println("Logs de Avisos: " + totalAvisos);
+            out.println("---------------------------------------");
+            out.println("Análise das estatísticas");
+
+            Double percetualErros = ((double) totalErros / totalLogs) * 100;
+            Double percentualAvisos = ((double) totalAvisos / totalLogs) * 100;
+
+            if(percentualAvisos > 0.1){
+                out.println("Atenção! Logs recorrentes de alerta indicam movimentações inesperadas nos dados capturados!");
+            } else if(percetualErros > 0.5){
+                out.println("Atenção! Logs recorrentes de erros indicam irregularidades com a aplicação. Reinicie o processo de captura.");
+            } else {
+                out.println("O monitoramento de seus equipamentos estão sob controle com a Re;Data! :)");
+            }
             out.close();
+
+            System.out.println("Arquivo de resumos do log foi gerado no diretório atual logs!");
         } catch (IOException e) {
             System.out.println("Houve um erro ao gerar o arquivo de resumo!");
             e.printStackTrace();
