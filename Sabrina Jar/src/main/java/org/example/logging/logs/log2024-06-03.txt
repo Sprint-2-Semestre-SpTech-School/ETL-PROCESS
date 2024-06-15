@@ -1,0 +1,23 @@
+20240603 01:12:06 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Language: português
+20240603 01:12:06 - info - M006 - sabrina-IdeaPad-3-15ALC6 - OS name: Linux Mint
+20240603 01:12:06 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Arch: 64x bits
+20240603 01:12:06 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Iniciando a aplicação...
+20240603 01:12:06 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL.
+20240603 01:12:06 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL: localizacaoEmpresa
+20240603 01:12:06 - error - M005 - sabrina-IdeaPad-3-15ALC6 - Erro de conexão SQL: Contato
+20240603 01:12:06 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Conta
+20240603 01:12:06 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values for login: ReData2024 / siglaConta: ADM for ID.Conta.redata: 1
+20240603 01:12:06 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Projeto
+20240603 01:12:06 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - nomeDemanda: Venda de Coca-Cola for ID.Projeto.redata: 1
+20240603 01:12:06 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - dataInicio: null for ID.Projeto.redata: 1
+20240603 01:12:06 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - dataTermino: null for ID.Projeto.redata: 1
+20240603 01:12:06 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - descricao: Aumentar vendas de Coca-Cola na Zona Norte for ID.Projeto.redata: 1
+20240603 01:12:06 - info - M003 - sabrina-IdeaPad-3-15ALC6 - SQL column new values - responsavel: Julia for ID.Projeto.redata: 1
+20240603 01:12:06 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Iniciando captura de dados da máquina: null...
+20240603 01:12:06 - info - M001 - sabrina-IdeaPad-3-15ALC6 - User: sabrina
+20240603 01:12:06 - info - M001 - sabrina-IdeaPad-3-15ALC6 - OS: Linux Mint
+20240603 01:12:06 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Temperature: 56,25
+20240603 01:12:06 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Uptime: 13hours
+20240603 01:12:06 - info - M001 - sabrina-IdeaPad-3-15ALC6 - Process finished..
+20240603 01:12:06 - info - M003 - sabrina-IdeaPad-3-15ALC6 - Dados inseridos com sucesso! Re;Data Local/MySQL DB: Table: Máquina
+20240603 01:12:06 - info - M006 - sabrina-IdeaPad-3-15ALC6 - Finalizando aplicação...
