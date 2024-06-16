@@ -99,7 +99,6 @@
                     <source>17</source> <!-- ajuste conforme sua versão de Java -->
                     <target>17</target> <!-- ajuste conforme sua versão de Java -->
                     <encoding>UTF-8</encoding>
-                    <classpathScope>compile</classpathScope>
                 </configuration>
             </plugin>
 
