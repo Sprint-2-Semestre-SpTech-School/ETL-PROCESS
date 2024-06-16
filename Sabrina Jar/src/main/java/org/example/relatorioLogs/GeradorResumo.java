@@ -29,7 +29,7 @@ public class GeradorResumo {
     }
 
     public static void gerarArquivoResumo(){
-        String dirResumo = "src/main/java/org/example/logging/ResumoLogs.txt";
+        String dirResumo = "classes/org/example/logging/ResumoLogs.txt";
         try {
             PrintWriter out = new PrintWriter(new FileWriter(dirResumo));
             out.println("---------------------------------------");
