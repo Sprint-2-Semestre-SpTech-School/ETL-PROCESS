@@ -24,7 +24,7 @@
         private final static String currentDateTime = formatDateTime.format(new Date());
         private final static String currentDate = formatDate.format(new Date());
         static String logFileName = "log" + currentDate + ".txt";
-        private static final String LOG_DIR = "src/main/java/org/example/logging/logs/";
+        private static final String LOG_DIR = "org/example/arquivosLog/";
         private static final String LOG_FILE = LOG_DIR + logFileName;
 
         public static void log(TagNiveisLog tag, String message, Modulo module){
