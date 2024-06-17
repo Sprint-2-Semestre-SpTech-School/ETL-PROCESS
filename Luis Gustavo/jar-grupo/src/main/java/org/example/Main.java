@@ -1,123 +1,121 @@
 package org.example;
 
 import com.github.britooo.looca.api.core.Looca;
+import org.example.Capturas.Cpu;
+import org.example.Capturas.Disco;
+import org.example.Capturas.Ram;
+import org.example.Capturas.Rede;
+import org.example.Jdbc.Conexao;
+import org.example.Jdbc.ConexaoServer;
+import org.json.JSONObject;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main {
-    static Looca looca = new Looca();
-    private static Maquina maquina = new Maquina(); // Static torna ela ligada a classe, portanto global
+//    private static final Conexao conexao = new Conexao();
+    private static final ConexaoServer conexao = new ConexaoServer();
+//    private static final JdbcTemplate con = conexao.getConexaoBanco();
+    private static final JdbcTemplate con02 = conexao.getConexaoBanco();
 
-    public static void main(String[] args) throws IOException {
-        String user = System.getProperty("user.name"); // Pegando usuário do sistema
-        String caminho = ("C:\\Users\\" + user + "\\Documents"); // Caminho onde a pasta será criada no seu PC
-        //if (maquina.getSistemaOperacional().equalsIgnoreCase("windows")) {
-            caminho = ("C:\\Users\\" + user + "\\Documents");
-       // } else {
-            caminho = System.getProperty("user.home");
-       // }
-            String nomeArquivo = "overchargeTest"; // Nome da pasta que será criada
-            String caminhoPasta = caminho + File.separator + nomeArquivo; // O caminho da pasta para criá-la
 
-            File dir = new File(caminhoPasta); // A classe File é genérica, serve para criar um arquivo
-            dir.mkdir(); // Nesse caso mkdir, um diretório está sendo criado
+    public static void main(String[] args) throws IOException, InterruptedException {
 
-            try { // Bloco de execução para lançar uma excecção
-                System.out.println(" ________  ___      ___ _______   ________  ___       ________  ________  ________          _________  _______   ________  _________        ________  _______   ________  ________  _________  ________          \n" +
-                        "|\\   __  \\|\\  \\    /  /|\\  ___ \\ |\\   __  \\|\\  \\     |\\   __  \\|\\   __  \\|\\   ___ \\        |\\___   ___|\\  ___ \\ |\\   ____\\|\\___   ___\\     |\\   __  \\|\\  ___ \\ |\\   ___ \\|\\   __  \\|\\___   ___|\\   __  \\  ___    \n" +
-                        "\\ \\  \\|\\  \\ \\  \\  /  / \\ \\   __/|\\ \\  \\|\\  \\ \\  \\    \\ \\  \\|\\  \\ \\  \\|\\  \\ \\  \\_|\\ \\       \\|___ \\  \\_\\ \\   __/|\\ \\  \\___|\\|___ \\  \\_|     \\ \\  \\|\\  \\ \\   __/|\\ \\  \\_|\\ \\ \\  \\|\\  \\|___ \\  \\_\\ \\  \\|\\  \\|\\__\\   \n" +
-                        " \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\_|/_\\ \\   _  _\\ \\  \\    \\ \\  \\\\\\  \\ \\   __  \\ \\  \\ \\\\ \\           \\ \\  \\ \\ \\  \\_|/_\\ \\_____  \\   \\ \\  \\       \\ \\   _  _\\ \\  \\_|/_\\ \\  \\ \\\\ \\ \\   __  \\   \\ \\  \\ \\ \\   __  \\|__|   \n" +
-                        "  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\_|\\ \\ \\  \\\\  \\\\ \\  \\____\\ \\  \\\\\\  \\ \\  \\ \\  \\ \\  \\_\\\\ \\           \\ \\  \\ \\ \\  \\_|\\ \\|____|\\  \\   \\ \\  \\       \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\  \\_\\\\ \\ \\  \\ \\  \\   \\ \\  \\ \\ \\  \\ \\  \\  ___ \n" +
-                        "   \\ \\_______\\ \\__/ /     \\ \\_______\\ \\__\\\\ _\\\\ \\_______\\ \\_______\\ \\__\\ \\__\\ \\_______\\           \\ \\__\\ \\ \\_______\\____\\_\\  \\   \\ \\__\\       \\ \\__\\\\ _\\\\ \\_______\\ \\_______\\ \\__\\ \\__\\   \\ \\__\\ \\ \\__\\ \\__\\|\\__\\\n" +
-                        "    \\|_______|\\|__|/       \\|_______|\\|__|\\|__|\\|_______|\\|_______|\\|__|\\|__|\\|_______|            \\|__|  \\|_______|\\_________\\   \\|__|        \\|__|\\|__|\\|_______|\\|_______|\\|__|\\|__|    \\|__|  \\|__|\\|__|\\|__|\n" +
-                        "                                                                                                                   \\|_________|                                                                                  \n" +
-                        "                                                                                                                                                                                                                 \n" +
-                        "                                                                                                                                                                                                                 ");
-                System.out.println("""
-                        Este é um teste de sobrecarga, iremos capturar o uso de cpu e
-                        informações a cerca do seu disco e fazer uma comparação
-                                                
-                        Por favor informe a quantidade de arquivos que você irá criar no computador
-                        OBS: Não informe valores acima de 10 mil, do contrário você terá um árduo trabalho ao excluir todos
-                        os arquivos.""");
+        Looca looca = new Looca();
+        Cpu cpu = new Cpu();
+        Ram ram = new Ram();
+        Disco disco = new Disco();
+        Rede rede = new Rede();
 
-                Scanner scanner = new Scanner(System.in);
-                Integer totalArquivos = scanner.nextInt();
-                Integer arquivos = 0;
+        Login validarLogin = new Login();
+        validarLogin.validacaoLogin();
 
-                Double usoCpuInicial = looca.getProcessador().getUso();
-                Long bytesEscritosInicial = looca.getGrupoDeDiscos().getDiscos().get(0).getBytesDeEscritas();
-                Long bytesLidosInicial = looca.getGrupoDeDiscos().getDiscos().get(0).getBytesDeLeitura();
+        LuisIndividual luisIndividual = new LuisIndividual();
+        luisIndividual.overloadTest();
 
-                System.out.println("""
-                        Os dados atuais da sua máquina são:
-                        Uso de CPU: %.2f
-                        BytesEscritos: %d
-                        BytesLidos: %d""".formatted(
-                        usoCpuInicial, bytesEscritosInicial, bytesLidosInicial
-                ));
+        if (!looca.getSistema().getSistemaOperacional().equalsIgnoreCase("Windows")) { // Inovação Linux
+            Inovacao testeInova = new Inovacao();
+            testeInova.setarSenha();
+            testeInova.ejetarUsb();
+        }
 
-                Long bytesEscritosAtual;
-                Long bytesLidosAtual;
-                Double usoCpuAtual;
+        try {
+            JSONObject json = new JSONObject();
+            json.put("text", "Foi Realizado um Login no JAVA");
+            Slack.sendMessage(json);
+        } catch (IOException e) {
+            System.out.println("PRoblemas de conexão com Slack" + e.getMessage());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-                do {
+        Maquina maquina = new Maquina();
 
-                    usoCpuAtual = looca.getProcessador().getUso();
-                    bytesEscritosAtual = looca.getGrupoDeDiscos().getDiscos().get(0).getBytesDeEscritas();
-                    bytesLidosAtual = looca.getGrupoDeDiscos().getDiscos().get(0).getBytesDeLeitura();
+        if (maquina.consultarUsuarioPorId() == null) {
+            Integer idProjeto = maquina.consultarProjeto();
+            Integer idEmpresa = maquina.consultarEmpresa();
+            Integer idMaquina = maquina.consultarId();
 
-                    String path1 = caminhoPasta + """
-                            \\arquivo%d.txt""".formatted(arquivos); // Os arquivos só são criados com
-                    // nomes diferentes, por isso o contador
+            maquina.capturarDadosMaquina();
+            maquina.inserirDadosMaquina(idProjeto, idEmpresa);
 
-                    FileWriter fw = new FileWriter(path1); // Serve para gravar caracteres em um arquivo
-                    BufferedWriter bw = new BufferedWriter(fw); // Serve para escrever em um arquivo
+            cpu.capturarDados(idMaquina);
 
-                    bw.write("Uso de CPU atual: " + usoCpuAtual);
-                    bw.newLine();
-                    bw.write("Bytes escritos atualmente: " + bytesEscritosAtual);
-                    bw.newLine();
-                    bw.write("Bytes lidos atualmente: " + bytesLidosAtual);
+            ram.capturarDados(idMaquina);
 
-                    arquivos++;
+            disco.capturarDados(idMaquina);
 
-                    Double progresso = ((double) arquivos / totalArquivos * 100);
-                    System.out.printf("\rProgresso atual: %.2f".formatted(progresso));
+            rede.capturarDados(idMaquina);
 
-                    if (usoCpuAtual < usoCpuInicial) {
-                        usoCpuAtual = usoCpuInicial;
-                    }
-                    bw.flush();
-                    bw.close();
-                } while (arquivos < totalArquivos);
+            Integer idHardwareCpu = maquina.consultarHardwareCpu();
+            Integer idHardwareRam = maquina.consultarHardwareRam();
+            Integer idHardwareDisco = maquina.consultarHardwareDisco();
+            Integer idHardwareRede = maquina.consultarHardwareRede();
 
-                System.out.println("""
-                        
-                        Esse teste de sobrecarga tem o intuito de mostrar a importância de ter o monitoramento
-                        preventivo em relação ao seu Hardware. Os dados gerados são a simulação de um processo
-                        ETL em escala menor. Para aderir ao nosso projeto entre em contato conosco!
-                        É possível acompanhar o aumento dos valores dentro de cada arquivo""");
+            cpu.inserirDados(idHardwareCpu);
+            ram.inserirDados(idHardwareRam);
+            disco.inserirDados(idHardwareDisco);
+            rede.inserirDados(idHardwareRede);
 
-                System.out.println("" +
-                        """
-                                
-                                Seu maior número de Cpu atingido foi: %.2f
-                                A quantidade de Bytes escritos após o teste foi: %d
-                                A quantidade de Bytes lidos após o teste foi: %d""".formatted(
-                                usoCpuAtual,
-                                (bytesEscritosAtual - bytesEscritosInicial),
-                                (bytesLidosAtual - bytesLidosInicial)
-                        ));
+        } else {
+            Integer idMaquina = maquina.consultarId();
 
-            } catch (IOException e) { // Caso algo de errado na entrada e na saída ele não parará o
-                // Código. Nesse caso ele só imprimirá um erro quando algo assim acontecer. A vantagem disso
-                // Em em relação ao if e else é que ele já é totalmente abrangente.
-                e.printStackTrace();
+            String queryVerificarTipoHardwareExiste = "SELECT COUNT(*) FROM InfoHardware Where fkMaquina = %d".formatted(idMaquina);
+            Integer contador = con02.queryForObject(queryVerificarTipoHardwareExiste, Integer.class);
+
+            if (contador == 0) {
+                cpu.capturarDados(idMaquina);
+
+                ram.capturarDados(idMaquina);
+
+                disco.capturarDados(idMaquina);
+
+                rede.capturarDados(idMaquina);
+
+                // CONSULTANDO IDS PRA INSERIR NO HARDAWRE CORRETO
+                Integer idHardwareCpu = maquina.consultarHardwareCpu();
+                Integer idHardwareRam = maquina.consultarHardwareRam();
+                Integer idHardwareDisco = maquina.consultarHardwareDisco();
+                Integer idHardwareRede = maquina.consultarHardwareRede();
+
+                cpu.inserirDados(idHardwareCpu);
+                ram.inserirDados(idHardwareRam);
+                disco.inserirDados(idHardwareDisco);
+                rede.inserirDados(idHardwareRede);
+
+            } else {
+                // CONSULTANDO IDS PRA INSERIR NO HARDAWRE CORRETO
+                Integer idHardwareCpu = maquina.consultarHardwareCpu();
+                Integer idHardwareRam = maquina.consultarHardwareRam();
+                Integer idHardwareDisco = maquina.consultarHardwareDisco();
+                Integer idHardwareRede = maquina.consultarHardwareRede();
+
+                cpu.inserirDados(idHardwareCpu);
+                ram.inserirDados(idHardwareRam);
+                disco.inserirDados(idHardwareDisco);
+                rede.inserirDados(idHardwareRede);
             }
         }
     }
+}
+

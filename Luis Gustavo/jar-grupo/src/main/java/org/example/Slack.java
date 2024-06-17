@@ -11,7 +11,7 @@ import java.net.http.HttpResponse;
 public class Slack {
     private static HttpClient cliente = HttpClient.newHttpClient();
     // "cliente" HTTP responsável por realizar as requisições
-    private static final String link = "https://hooks.slack.com/services/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";
+    private static final String link = ""; // COLOCAR O LINK AQUI NO MEIO DAS ASPAS E NÃO SUBIR NUNCA NUNCA NUNCA AO GIT HUB PFVVVVVVV
     // Esse Link de cima é o link gerado no app Slack configurado (o Nome do robo de alerta é "O Alertador")
 
     public static void sendMessage(JSONObject content) throws IOException, InterruptedException {

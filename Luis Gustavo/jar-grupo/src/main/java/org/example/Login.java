@@ -42,37 +42,6 @@ public class Login {
             ConexaoServer conexaoLogin = new ConexaoServer();
             JdbcTemplate conLogin = conexaoLogin.getConexaoBanco();
 
-//            ================================================ LOCAL ======================================
-//            try {
-//                    Integer checkEmpresaTable = conLogin.queryForObject("SELECT 1 FROM Empresa LIMIT 1", Integer.class);
-//                if (checkEmpresaTable == null) {
-//                    System.out.println("A tabela Empresa não existe ou está vazia. Adicione uma empresa no site.");
-//                    System.exit(0);
-//                }
-//            } catch (Exception e) {
-//                System.out.println("A tabela Empresa não existe ou retornou um valor inválido: " + e.getMessage());
-//                System.exit(0);
-//            }
-//
-//            try {
-//                conLogin.update("INSERT IGNORE INTO Conta (login, senha, siglaConta, dataCriacao ,fkEmpresa) VALUES ((select nomeEmpresa from Empresa where idEmpresa = (select max(idEmpresa) from Empresa)), 'SPtechPI', 'FCM', current_timestamp, 1)");
-//            } catch (Exception e) {
-//                System.out.println("Erro ao inserir na tabela Conta: " + e.getMessage());
-//                return;
-//            }
-//
-//            try {
-//                Integer checkTable = conLogin.queryForObject("SELECT 1 FROM Conta LIMIT 1", Integer.class);
-//                if (checkTable == null) {
-//                    System.out.println("A tabela Conta não existe ou retornou um valor inválido");
-//                    return;
-//                }
-//            } catch (Exception e) {
-//                System.out.println("A tabela Conta não existe ou retornou um valor inválido: " + e.getMessage());
-//                System.exit(0);
-//            }
-
-
             List<Login> loginDoBanco = conLogin.query("SELECT * FROM Conta",
                     new BeanPropertyRowMapper<>(Login.class));
 

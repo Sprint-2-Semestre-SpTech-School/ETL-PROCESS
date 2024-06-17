@@ -73,9 +73,9 @@ public class Ram extends Hardware {
             public void run() {
                 String queryRegistro = "INSERT INTO Registro (nomeRegistro, valorRegistro, tempoCapturas, fkHardware) " +
                         "VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
-                con02.update(queryRegistro, nomeRegistro, (looca.getMemoria().getEmUso() / 1e9) * 100 / valorTotal, fkHardware);
+                con02.update(queryRegistro, nomeRegistro, (looca.getMemoria().getEmUso() / 1e9) * 100 / (double) Math.round(looca.getMemoria().getTotal() / 1e9), fkHardware);
                 try {
-                    con02.update(queryRegistro, nomeRegistro, (looca.getMemoria().getEmUso() / 1e9) * 100 / valorTotal, fkHardware);
+                    con02.update(queryRegistro, nomeRegistro, (looca.getMemoria().getEmUso() / 1e9) * 100 / (double) Math.round(looca.getMemoria().getTotal() / 1e9), fkHardware);
                 } catch (RuntimeException e) {
                     e.getMessage();
                 }
@@ -83,7 +83,7 @@ public class Ram extends Hardware {
                 if (looca.getMemoria().getEmUso() >= 70 && looca.getMemoria().getEmUso() < 85) {
                     try {
                         JSONObject json = new JSONObject();
-                        json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
+                        json.put("text", "ALERTA AMARELO DE MONITORAMENTO: A sua RAM, hardware numero " + fkHardware + ", PODE ESTAR COMEÇANDO A FUNCIONAR COM UMA PORCETAGEM DE USO ACIMA DE 70%");
                         Slack.sendMessage(json);
                     } catch (IOException e) {
                         System.out.println("Deu ruim no slack" + e);
@@ -91,10 +91,10 @@ public class Ram extends Hardware {
                         throw new RuntimeException(e);
                     }
 
-                } else if (looca.getMemoria().getEmUso() >= 80) {
+                } else if (looca.getMemoria().getEmUso() >= 90) {
                     try {
                         JSONObject json = new JSONObject();
-                        json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
+                            json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: A sua RAM da maquina do hardware" + fkHardware + " ESTÁ FUNCIONANDO COM UMA PORCETAGEM DE USO ACIMA DE 85%");
                         Slack.sendMessage(json);
                     } catch (IOException e) {
                         System.out.println("Deu ruim no slack" + e);

@@ -20,7 +20,7 @@ public class Conexao {
             conexaoBanco = new JdbcTemplate(dataSource);
         } else {
             dataSource.setUsername("Re;Data");
-            dataSource.setPassword("UrubuAbutre100");
+            dataSource.setPassword("urubu100");
             conexaoBanco = new JdbcTemplate(dataSource);
         }
     }

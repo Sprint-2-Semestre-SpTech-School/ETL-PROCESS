@@ -131,7 +131,7 @@ public class Disco extends Hardware {
                     if (bytesTransferenciaEscrita <= 2 && bytesTransferenciaEscrita > 1) {
                         try {
                             JSONObject json = new JSONObject();
-                            json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
+                            json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O SEU DISCO, hardware numero " + fkHardware + " PODE ESTAR COMEÇANDO A TER UMA QUANTIDADE DE TRANSFERENCIA DE ESCRITA FORA DOS PARAMETROS");
                             Slack.sendMessage(json);
                         } catch (IOException e) {
                             System.out.println("Deu ruim no slack" + e);
@@ -141,7 +141,7 @@ public class Disco extends Hardware {
                     } else if (bytesTransferenciaEscrita <= 1) {
                         try {
                             JSONObject json = new JSONObject();
-                            json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
+                            json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O SEU DISCO, hardware numero " + fkHardware + " ESTÁ FUNCIONANDO COM UMA QUANTIDADE DE TRANSFERENCIA DE ESCRITA FORA DOS PARAMETROS");
                             Slack.sendMessage(json);
                         } catch (IOException e) {
                             System.out.println("Deu ruim no slack" + e);

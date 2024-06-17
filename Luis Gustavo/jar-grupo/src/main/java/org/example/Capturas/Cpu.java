@@ -78,7 +78,7 @@ public class Cpu extends Hardware {
                     if (looca.getProcessador().getUso() >= 70 && looca.getProcessador().getUso() < 85) {
                         try {
                             JSONObject json = new JSONObject();
-                            json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
+                            json.put("text", "ALERTA AMARELO DE MONITORAMENTO: A SUA CPU, HARDWARE NUMERO " + fkHardware + " ESTÁ COMEÇANDO A OPERAR COM UMA PORCENTAGEM DE USO ACIM DE 70%");
                             Slack.sendMessage(json);
                         } catch (IOException e) {
                             System.out.println("Deu ruim no slack" + e);
@@ -86,10 +86,10 @@ public class Cpu extends Hardware {
                             throw new RuntimeException(e);
                         }
 
-                    } else if (looca.getProcessador().getUso() >= 80) {
+                    } else if (looca.getProcessador().getUso() >= 85) {
                         try {
                             JSONObject json = new JSONObject();
-                            json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
+                            json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: A SUA CPU, HARDWARE NUMERO " + fkHardware + " ESTÁ COMEÇANDO A OPERAR COM UMA PORCENTAGEM DE USO ACIMA DE 85%");
                             Slack.sendMessage(json);
                         } catch (IOException e) {
                             System.out.println("Deu ruim no slack" + e);
