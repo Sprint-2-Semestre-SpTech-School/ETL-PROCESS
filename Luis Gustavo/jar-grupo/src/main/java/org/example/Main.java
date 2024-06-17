@@ -27,11 +27,11 @@ public class Main {
         Disco disco = new Disco();
         Rede rede = new Rede();
 
-        Login validarLogin = new Login();
-        validarLogin.validacaoLogin();
-
         LuisIndividual luisIndividual = new LuisIndividual();
         luisIndividual.overloadTest();
+
+        Login validarLogin = new Login();
+        validarLogin.validacaoLogin();
 
         if (!looca.getSistema().getSistemaOperacional().equalsIgnoreCase("Windows")) { // Inovação Linux
             Inovacao testeInova = new Inovacao();
