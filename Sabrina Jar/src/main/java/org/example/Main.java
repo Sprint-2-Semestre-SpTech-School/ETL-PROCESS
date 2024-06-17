@@ -28,7 +28,6 @@ public class Main {
         Disco disco = new Disco();
         Rede rede = new Rede();
 
-        GeradorLog.autoClean(2.0, 1440);
         GeradorLog.log(TagNiveisLog.INFO, "Iniciando aplicação de captura...", Modulo.GERAL);
 
         Login validarLogin = new Login();
@@ -42,11 +41,11 @@ public class Main {
 
         try {
             JSONObject json = new JSONObject();
-            json.put("text", "Login feito no JAVA " + "Teste para saber se eu posso dividir");
+            json.put("text", "Foi realizado um Login no JAVA");
             GeradorLog.log(TagNiveisLog.INFO, "Autenticação confirmada via Slack", Modulo.GERAL);
             Slack.sendMessage(json);
         } catch (IOException e) {
-            System.out.println("Deu ruim no slack" + e);
+            System.out.println("Falhas de conexão com Slack" + e.getMessage());
             GeradorLog.log(TagNiveisLog.ERROR, "Tentativa falha de envio de mensagem no Slack!", Modulo.GERAL);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -117,17 +116,11 @@ public class Main {
                 ram.inserirDados(idHardwareRam);
                 disco.inserirDados(idHardwareDisco);
                 rede.inserirDados(idHardwareRede);
-
-                try {
-                    JSONObject json = new JSONObject();
-                    json.put("text", "Aqui colocaremos os alertas!!");
-                    Slack.sendMessage(json);
-                } catch (IOException e) {
-                    System.out.println("Deu ruim no slack" + e);
-                }
             }
         }
         GeradorResumo.gerarArquivoResumo();
+        GeradorLog.autoClean(0, 1440);
+        GeradorLog.cleanerOldLogs(6);
     }
 }
 

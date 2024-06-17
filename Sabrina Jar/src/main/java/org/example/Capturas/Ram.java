@@ -114,7 +114,7 @@ public class Ram extends Hardware {
                 if (looca.getMemoria().getEmUso() >= 70 && looca.getMemoria().getEmUso() < 85) {
                     try {
                         JSONObject json = new JSONObject();
-                        json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
+                        json.put("text", "ALERTA AMARELO DE MONITORAMENTO: A sua RAM, hardware numero " + fkHardware + ", PODE ESTAR COMEÇANDO A FUNCIONAR COM UMA PORCETAGEM DE USO ACIMA DE 70%");
                         Slack.sendMessage(json);
                         GeradorLog.log(TagNiveisLog.WARN, "Alerta amarelo de monitoramento via Slack", Modulo.ALERTA);
                         GeradorLog.log(TagNiveisLog.WARN, "Alteração nos indicadores da RAM!", Modulo.ALERTA);
@@ -125,10 +125,10 @@ public class Ram extends Hardware {
                         throw new RuntimeException(e);
                     }
 
-                } else if (looca.getMemoria().getEmUso() >= 80) {
+                } else if (looca.getMemoria().getEmUso() >= 90) {
                     try {
                         JSONObject json = new JSONObject();
-                        json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
+                        json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: A sua RAM da maquina do hardware" + fkHardware + " ESTÁ FUNCIONANDO COM UMA PORCETAGEM DE USO ACIMA DE 85%");
                         Slack.sendMessage(json);
                         GeradorLog.log(TagNiveisLog.WARN, "Alerta VERMELHO de monitoramento via Slack", Modulo.ALERTA);
                         GeradorLog.log(TagNiveisLog.WARN, "Alteração precupante nos indicadores da RAM!", Modulo.ALERTA);

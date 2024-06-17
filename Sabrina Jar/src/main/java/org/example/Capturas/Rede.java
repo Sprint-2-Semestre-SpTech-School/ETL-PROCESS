@@ -158,7 +158,7 @@ public class Rede extends Hardware {
                     if (pacotesRecebidos <= 7 && pacotesRecebidos > 3) {
                         try {
                             JSONObject json = new JSONObject();
-                            json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
+                            json.put("text", "ALERTA AMARELO DE MONITORAMENTO: A SUA PLACA DE REDE, do hardware numero " + fkHardware + " ESTÁ COMEÇANDO A OPERAR COM UMA QUANTIDADE DE PACOTES RECEBIDOS FORA DOS PARAMETROS");
                             Slack.sendMessage(json);
                             GeradorLog.log(TagNiveisLog.WARN, "Alerta amarelo de monitoramento via Slack", Modulo.ALERTA);
                             GeradorLog.log(TagNiveisLog.WARN, "Alteração nos indicadores da REDE!", Modulo.ALERTA);
@@ -172,7 +172,7 @@ public class Rede extends Hardware {
                     } else if (pacotesRecebidos <= 3) {
                         try {
                             JSONObject json = new JSONObject();
-                            json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
+                            json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: A SUA PLACA DE REDE, do hardware numero " + fkHardware + " ESTÁ OPERANDO COM UMA QUANTIDADE DE PACOTES RECEBIDOS FORA DOS PARAMETROS");
                             Slack.sendMessage(json);
                             GeradorLog.log(TagNiveisLog.WARN, "Alerta VERMELHO de monitoramento via Slack", Modulo.ALERTA);
                             GeradorLog.log(TagNiveisLog.WARN, "Alteração precupante nos indicadores da REDE!", Modulo.ALERTA);

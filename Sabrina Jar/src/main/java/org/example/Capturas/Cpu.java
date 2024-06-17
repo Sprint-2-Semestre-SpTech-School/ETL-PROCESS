@@ -95,7 +95,7 @@ public class Cpu extends Hardware {
                     if (looca.getProcessador().getUso() >= 70 && looca.getProcessador().getUso() < 85) {
                         try {
                             JSONObject json = new JSONObject();
-                            json.put("text", "ALERTA AMARELO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " Pode estar começando a funcionar fora do parametro correto");
+                            json.put("text", "ALERTA AMARELO DE MONITORAMENTO: A SUA CPU, HARDWARE NUMERO " + fkHardware + " ESTÁ COMEÇANDO A OPERAR COM UMA PORCENTAGEM DE USO ACIM DE 70%");
                             Slack.sendMessage(json);
                             GeradorLog.log(TagNiveisLog.WARN, "Alerta amarelo de monitoramento via Slack", Modulo.ALERTA);
                             GeradorLog.log(TagNiveisLog.WARN, "Alteração nos indicadores do processador!", Modulo.ALERTA);
@@ -106,10 +106,10 @@ public class Cpu extends Hardware {
                             throw new RuntimeException(e);
                         }
 
-                    } else if (looca.getProcessador().getUso() >= 80) {
+                    } else if (looca.getProcessador().getUso() >= 85) {
                         try {
                             JSONObject json = new JSONObject();
-                            json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: O seu " + nomeHardware + " da maquina " + fkMaquina + " ESTÁ FUNCIONANDO FORA DOS PARAMETROS");
+                            json.put("text", "ALERTA VERMELHO DE MONITORAMENTO: A SUA CPU, HARDWARE NUMERO " + fkHardware + " ESTÁ COMEÇANDO A OPERAR COM UMA PORCENTAGEM DE USO ACIMA DE 85%");
                             Slack.sendMessage(json);
                             GeradorLog.log(TagNiveisLog.WARN, "Alerta VERMELHO de monitoramento via Slack", Modulo.ALERTA);
                             GeradorLog.log(TagNiveisLog.WARN, "Alteração precupante nos indicadores do processador!", Modulo.ALERTA);
