@@ -28,7 +28,8 @@ public class Main {
         Disco disco = new Disco();
         Rede rede = new Rede();
 
-        GeradorLog.autoClean(6.0, 1440);
+        GeradorLog.autoClean(0, 1440);
+        GeradorLog.cleanerOldLogs(6);
         GeradorLog.log(TagNiveisLog.INFO, "Iniciando aplicação de captura...", Modulo.GERAL);
 
         Login validarLogin = new Login();
