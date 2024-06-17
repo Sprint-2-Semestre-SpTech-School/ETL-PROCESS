@@ -44,9 +44,9 @@ public class GeradorResumo {
             Double percetualErros = ((double) totalErros / totalLogs) * 100;
             Double percentualAvisos = ((double) totalAvisos / totalLogs) * 100;
 
-            if(percentualAvisos > 0.1){
+            if(percentualAvisos > 0.10){
                 out.println("Atenção! Logs recorrentes de alerta indicam movimentações inesperadas nos dados capturados!");
-            } else if(percetualErros > 0.5){
+            } else if(percetualErros > 0.25){
                 out.println("Atenção! Logs recorrentes de erros indicam irregularidades com a aplicação. Reinicie o processo de captura.");
             } else {
                 out.println("O monitoramento de seus equipamentos estão sob controle com a Re;Data! :)");
